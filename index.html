@@ -11,6 +11,8 @@
 
       <h1>Edit Profile</h1>
 
+      <div id="saved" class="hidden">The changes were saved.</div>
+
       <div id="editProfileContainer"></div>
 
       <script src="//cdn.auth0.com/js/lock-7.js"></script>
@@ -22,7 +24,7 @@
         
         var widget = new Auth0Lock(cid, domain);
 
-        widget.show(function (err, profile, token) {
+        widget.show({closable: false},function (err, profile, token) {
 
           var userInfoElement = document.getElementById('user-info');
 
@@ -40,9 +42,20 @@
                 ]}
               ]);
 
-          editProfileWidget.on('submit', data => console.log('sumited', data))
-              .on('save', data => console.log('saved', data))
-              .on('error', data => console.log('error', data));
+          editProfileWidget
+              .on('submit', function(data) {
+                console.log('submited', data)
+              })
+              .on('save', function(data){
+                console.log('saved', data);
+                document.getElementById('saved').className = "";
+                setTimeout(function(){
+                  document.getElementById('saved').className = "hidden";
+                }, 3000);
+              })
+              .on('error', function(data){
+                console.log('error', data);
+              });
         });
 
       </script>
