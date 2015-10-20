@@ -52,8 +52,6 @@ export default class Auth0EditProfileWidget {
       .then(response => this.extendWithMetadata(response.user_metadata || {}) )
       .then(() => this.render() )
       .catch(e => this.on('error', e));
-
-    this.render();
   }
 
   extendWithMetadata(metadata) {
