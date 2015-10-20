@@ -8,7 +8,7 @@ var FormInputField = React.createClass({
     var attribute = this.props.data.attribute;
 
     return (
-      <div>
+      <div className="field">
         <label>{label}</label>
         <input type={type} defaultValue={value} name={attribute} />
       </div>

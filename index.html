@@ -4,6 +4,13 @@
     </head>
     <body>
 
+      <header>
+        <div class="logo"></div>
+        <div id="user-info"></div>
+      </header>
+
+      <h1>Edit Profile</h1>
+
       <div id="editProfileContainer"></div>
 
       <script src="//cdn.auth0.com/js/lock-7.js"></script>
@@ -16,6 +23,11 @@
         var widget = new Auth0Lock(cid, domain);
 
         widget.show(function (err, profile, token) {
+
+          var userInfoElement = document.getElementById('user-info');
+
+          userInfoElement.innerHTML += '<img src="'+profile.picture+'" />';
+          userInfoElement.innerHTML += '<span class="name">'+ profile.nickname +'</span>';
 
           var editProfileWidget = new Auth0EditProfileWidget(domain, token, 'editProfileContainer', [
                 { label: "Name", type:"text", attribute:"name", validation: (name => name.length > 10 ? 'The name is too long' : null) },

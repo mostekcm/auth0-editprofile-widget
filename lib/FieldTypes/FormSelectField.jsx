@@ -29,7 +29,7 @@ var FormSelectField = React.createClass({
     } );
 
     return (
-      <div>
+      <div className="field">
         <label>{label}</label>
         <select name={attribute} defaultValue={value}>
           {options}
