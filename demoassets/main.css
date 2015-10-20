@@ -97,6 +97,7 @@ h1{
   width: 80px;
   margin-left: calc(25% + 15px);
   cursor: pointer;
+  line-height: 18px;
 }
 
 #saved {

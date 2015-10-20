@@ -13,7 +13,7 @@ Check the demo: http://auth0.github.io/auth0-editprofile-widget/
 <script src="build/auth0-editprofile-widget.js"></script>
 <script type="text/javascript">
 var editProfileWidget = new Auth0EditProfileWidget(auth0_domain, user_token, 'editProfileContainer', [
-    { label: "Name", type:"text", attribute:"name", validation: (name => name.length > 10 ? 'The name is too long' : null) },
+    { label: "Name", type:"text", attribute:"name", validation: function(name){return (name.length > 10 ? 'The name is too long' : null);} },
     { label: "Lastname", type:"text", attribute:"lastname" },
     { label: "BirthDay", type:"date", attribute:"birthday" },
     { label: "Type", type:"select", attribute:"account_type", options:[
