@@ -74,17 +74,21 @@ h1{
 
 #editProfileContainer input[type=text],
 #editProfileContainer input[type=date],
-#editProfileContainer select,
 #editProfileContainer textarea,
 #editProfileContainer .radio,
+#editProfileContainer select,
 #editProfileContainer .checkbox {
   width: 40%;
   display: inline-block;
-  min-height: 34px;
   padding: 6px 12px;
   font-size: 14px;
+  min-height: 34px;
   line-height: 1.42857143;
   color: #555;
+}
+
+#editProfileContainer select {
+  height: 34px;
 }
 
 #editProfileContainer input[type=text],
