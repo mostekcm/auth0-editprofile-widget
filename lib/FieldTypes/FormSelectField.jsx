@@ -23,6 +23,7 @@ var FormSelectField = React.createClass({
     var type = this.props.data.type;
     var value = this.props.data.value;
     var attribute = this.props.data.attribute;
+    var id=`field_${attribute}`;
 
     var options = this.props.data.options.map( option => {
       return ( <SelectOption key={option.value} data={option} />);
@@ -30,8 +31,8 @@ var FormSelectField = React.createClass({
 
     return (
       <div className="field">
-        <label>{label}</label>
-        <select name={attribute} defaultValue={value}>
+        <label htmlFor={id} >{label}</label>
+        <select id={id} name={attribute} defaultValue={value}>
           {options}
         </select>
       </div>

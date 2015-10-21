@@ -1,7 +1,8 @@
-import React from 'react';
-import FormSelectField from './FormSelectField'
-import FormInputField from './FormInputField'
-import FormOptionsField from './FormOptionsField'
+import React              from 'react';
+import FormSelectField    from './FormSelectField'
+import FormInputField     from './FormInputField'
+import FormOptionsField   from './FormOptionsField'
+import FormTextareaField  from './FormTextareaField'
 
 export default function FieldTypeMapper(type) {
   switch (type) {
@@ -9,6 +10,12 @@ export default function FieldTypeMapper(type) {
     case 'select': return function(data) {
       return (
         <FormSelectField key={data.attribute}  data={data} />
+      );
+    }; break;
+
+    case 'textarea': return function(data) {
+      return (
+        <FormTextareaField key={data.attribute}  data={data} />
       );
     }; break;
 

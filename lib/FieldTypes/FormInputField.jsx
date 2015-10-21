@@ -6,11 +6,12 @@ var FormInputField = React.createClass({
     var type = this.props.data.type;
     var value = this.props.data.value;
     var attribute = this.props.data.attribute;
+    var id=`field_${attribute}`;
 
     return (
       <div className="field">
-        <label>{label}</label>
-        <input type={type} defaultValue={value} name={attribute} />
+        <label htmlFor={id} >{label}</label>
+        <input id={id} type={type} defaultValue={value} name={attribute} />
       </div>
     );
   }
