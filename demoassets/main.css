@@ -68,7 +68,7 @@ h1{
   margin-right: 15px;
 }
 
-#editProfileContainer input,
+#editProfileContainer input[type=text],
 #editProfileContainer select {
   width: 40%;
 

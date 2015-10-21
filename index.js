@@ -1,8 +1,9 @@
-var fetch = require('fetchify')(Promise).fetch;
-var React = require('react');
+import fetchify from 'fetchify';
+import React from 'react';
+import EditProfileForm from './lib/EditProfileForm';
+import jwt_decode from 'jwt-decode';
 
-import EditProfileForm from './lib/EditProfileForm'
-import jwt_decode from 'jwt-decode'
+var fetch = fetchify(Promise).fetch;
 
 export default class Auth0EditProfileWidget {
     
