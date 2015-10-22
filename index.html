@@ -33,8 +33,9 @@
 
           var editProfileWidget = new Auth0EditProfileWidget('editProfileContainer', 
               {
-                user_token: token,
-                domain: domain
+                // user_token: token,
+                // domain: domain
+                connection_strategy: new WebtaskStrategy('https://webtask.it.auth0.com/api/run/wt-5491169046745-0/update_user_profile?webtask_no_cache=1', token)
               },
               [
                 { type:"custom", attribute:"name", render: function(value) {

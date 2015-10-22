@@ -1,5 +1,5 @@
 import EditProfileForm  from './lib/EditProfileForm';
-import Auth0Api         from './lib/ConnectionStrategy/Auth0Api';
+import Auth0Api         from './lib/ConnectionStrategy/Auth0ApiStrategy';
 import React            from 'react';
 
 export default class Auth0EditProfileWidget {
@@ -13,7 +13,7 @@ export default class Auth0EditProfileWidget {
     if (options.connection_strategy) {
       this.connection_strategy = options.connection_strategy;
     } else {
-      this.connection_strategy = new Auth0Api(options.domain, options.user_token);
+      this.connection_strategy = new Auth0ApiStrategy(options.domain, options.user_token);
     }
     
     this.editProfile = new EditProfileForm();

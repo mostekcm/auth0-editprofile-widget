@@ -33,9 +33,39 @@ var editProfileWidget = new Auth0EditProfileWidget(auth0_domain, user_token, 'ed
     - type: input type (text, date, number, select, checkbox, radio)
     - attribute: this is the user_metadata attribute name where it will be saved
     - validation: it is a validation function that will be excecuted before calling the Auth0 API. If there is an error, the text returned by the function will be used as the error message. If null is returned, it will assume no error.
+    - render: used for custom fields. It should return a valid HTML to be rendered by the widget.
 
 ##Events
 
 * submit: this occurs when the user submits the form, before the API is called
 * save: this occurs after the API is called, if a success response is received
 * error: this occurs if there is any error in tha API call
+
+##Updating users 
+
+By default this widget provides a way to update the `user_metadata` using the user token. Since to update the `app_metadata` and root attributes an `app_token` is needed, it shouldn't be done on client side.
+
+In this case, you need to implement your own connection strategy that will make a request to your backend and from there update the user data. You can also use the built-in connection strategy and webtask provided by the plugin in case you are working in a backendless app.
+
+```
+var editProfileWidget = new Auth0EditProfileWidget('editProfileContainer', 
+      {
+        connection_strategy: new WebtaskStrategy('https://yourendpoint...', user_token)
+      },
+      [
+        ...
+```
+
+
+Create the webtask
+
+```
+wt create --name update_user_profile \
+  --secret app_token=... \
+  --secret client_secret=... \
+  --secret domain=... \
+  --output url update_user_profile.js --no-parse --no-merge
+```
+
+##TODO:
+1. Hook to events between fields (ie: update a custom field based on changes on a text field).
