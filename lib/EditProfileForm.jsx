@@ -1,6 +1,6 @@
-import React from 'react';
-import formSerialize from 'form-serialize';
-import FieldTypeMapper from './FieldTypes/FieldTypeMapper'
+import React            from 'react';
+import formSerialize    from 'form-serialize';
+import FieldTypeMapper  from './FieldTypes/FieldTypeMapper'
 
 
 var FormFieldList = React.createClass({

@@ -74,6 +74,7 @@ h1{
 
 #editProfileContainer input[type=text],
 #editProfileContainer input[type=date],
+#editProfileContainer input[type=email],
 #editProfileContainer textarea,
 #editProfileContainer .radio,
 #editProfileContainer select,
@@ -93,6 +94,7 @@ h1{
 
 #editProfileContainer input[type=text],
 #editProfileContainer input[type=date],
+#editProfileContainer input[type=email],
 #editProfileContainer select,
 #editProfileContainer textarea {
   background-color: #fff;

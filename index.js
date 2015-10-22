@@ -1,23 +1,21 @@
-import fetchify         from 'fetchify';
-import React            from 'react';
 import EditProfileForm  from './lib/EditProfileForm';
-import jwt_decode       from 'jwt-decode';
-
-var fetch = fetchify(Promise).fetch;
+import Auth0Api         from './lib/ConnectionStrategy/Auth0Api';
+import React            from 'react';
 
 export default class Auth0EditProfileWidget {
     
-  constructor (domain, user_token, container_id, fields, onSave) {
+  constructor (container_id, options, fields) {
+
     if (!(this instanceof Auth0EditProfileWidget)) {
         return new Auth0EditProfileWidget(options);
     }
 
-    var decoded = jwt_decode(user_token);
-
-    this.domain = domain;
-    this.user_token = user_token;
-    this.user_id = decoded.sub;
-
+    if (options.connection_strategy) {
+      this.connection_strategy = options.connection_strategy;
+    } else {
+      this.connection_strategy = new Auth0Api(options.domain, options.user_token);
+    }
+    
     this.editProfile = new EditProfileForm();
 
     this.data = {
@@ -32,24 +30,10 @@ export default class Auth0EditProfileWidget {
       submit:[],
       error:[]
     };
+  }
 
-    var headers = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + this.user_token
-    };
-
-    fetch('https://' + this.domain + '/api/v2/users/' + this.user_id, {
-        method: 'GET',
-        headers: headers,
-      })
-      .then(response => {
-        if (response.status != 200) {
-          throw "ERROR";
-        }
-        
-        return response.json();
-      })
+  init() {
+    this.connection_strategy.get()
       .then(response => this.extendWithMetadata(response.user_metadata || {}) )
       .then(() => this.render() )
       .catch(e => this.on('error', e));
@@ -104,28 +88,8 @@ export default class Auth0EditProfileWidget {
 
     this.on('submit', data);
 
-    var headers = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + this.user_token
-    };
-
-    fetch('https://' + this.domain + '/api/v2/users/' + this.user_id, {
-        method: 'PATCH',
-        headers: headers,
-        body: JSON.stringify({
-          user_metadata:data
-        })
-      })
-      .then(response => {
-        if (response.status != 200) {
-          throw "ERROR";
-        }
-
-        this.render();
-
-        return response.json();
-      })
+    this.connection_strategy.patch(data)
+      .then(response => (this.render(), response) )
       .then(response => this.on('save', response) )
       .catch(e => this.on('error', e));
 

@@ -31,10 +31,18 @@
           userInfoElement.innerHTML += '<img src="'+profile.picture+'" />';
           userInfoElement.innerHTML += '<span class="name">'+ profile.nickname +'</span>';
 
-          var editProfileWidget = new Auth0EditProfileWidget(domain, token, 'editProfileContainer', [
-                { label: "Name", type:"text", attribute:"name", validation: function(name){return (name.length > 10 ? 'The name is too long' : null);} },
+          var editProfileWidget = new Auth0EditProfileWidget('editProfileContainer', 
+              {
+                user_token: token,
+                domain: domain
+              },
+              [
+                { label: "Name", type:"text", attribute:"name", 
+                  validation: function(name){return (name.length > 10 ? 'The name is too long' : null);} 
+                },
                 { label: "Lastname", type:"text", attribute:"lastname" },
                 { label: "BirthDay", type:"date", attribute:"birthday" },
+                { label: "Email", type:"email", attribute:"email" },
                 { label: "Bio", type:"textarea", attribute:"bio" },
                 { label: "Type", type:"select", attribute:"account_type", options:[
                   { value: "type_1", text:"Type 1"},
@@ -66,7 +74,8 @@
               })
               .on('error', function(data){
                 console.log('error', data);
-              });
+              })
+              .init();
         });
 
       </script>
