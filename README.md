@@ -47,17 +47,7 @@ By default this widget provides a way to update the `user_metadata` using the us
 
 In this case, you need to implement your own connection strategy that will make a request to your backend and from there update the user data. You can also use the built-in connection strategy and webtask provided by the plugin in case you are working in a backendless app.
 
-```
-var editProfileWidget = new Auth0EditProfileWidget('editProfileContainer', 
-      {
-        connection_strategy: new WebtaskStrategy('https://yourendpoint...', user_token)
-      },
-      [
-        ...
-```
-
-
-Create the webtask
+Create the webtask and copy the webtask URL to set as the WebtaskStrategy parameter:
 
 ```
 wt create --name update_user_profile \
@@ -65,6 +55,21 @@ wt create --name update_user_profile \
   --secret client_secret=... \
   --secret domain=... \
   --output url update_user_profile.js --no-parse --no-merge
+```
+
+- app_token: it should be an app token generated in the [API Exporer](auth0.com/docs/api/v2) with `read:users`, `update:users` and `update:users_app_metadata` scopes
+- client_secret: should be the client secret of the same app you are using in the client side. It is used to verify the user token
+- domain: your auth0 account domain
+
+and set the `connection_strategy`:
+
+```
+var editProfileWidget = new Auth0EditProfileWidget('editProfileContainer', 
+      {
+        connection_strategy: new WebtaskStrategy('https://yourendpoint...', user_token)
+      },
+      [
+        ...
 ```
 
 ##TODO:
