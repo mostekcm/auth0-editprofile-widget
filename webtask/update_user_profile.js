@@ -63,8 +63,17 @@ app.patch('/',
     var email = req.body.email;
     delete req.body.email;
 
+    var app_metadata = {
+      account_options: req.body.account_options,
+      account_checks: _.isArray(req.body.account_checks) ? req.body.account_checks : [req.body.account_checks]
+    };
+
+    delete req.body.account_options;
+    delete req.body.account_checks;
+
     var payload = {
       email:email,
+      app_metadata:app_metadata,
       user_metadata:req.body
     };
 

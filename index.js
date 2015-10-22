@@ -34,15 +34,16 @@ export default class Auth0EditProfileWidget {
 
   init() {
     this.connection_strategy.get()
-      .then(response => this.extendWithMetadata(response.user_metadata || {}) )
+      .then(response => this.extendWithMetadata(response || {}) )
       .then(() => this.render() )
       .catch(e => this.on('error', e));
   }
 
-  extendWithMetadata(metadata) {
-
+  extendWithMetadata(user) {
+    user.user_metadata = user.user_metadata || {};
+    user.app_metadata = user.app_metadata || {};
     this.data.fields.forEach(function(field) {
-      field.value = metadata[field.attribute] || null;
+      field.value = user.user_metadata[field.attribute] || user.app_metadata[field.attribute] || user[field.attribute] || null;
       return field;
     });
 
