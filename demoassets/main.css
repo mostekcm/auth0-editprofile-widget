@@ -61,6 +61,11 @@ h1{
 #editProfileContainer .field {
   margin-bottom: 10px;
 }
+#editProfileContainer .custom-field { 
+  padding-left: calc(25% + 15px);
+  font-size: 16px;
+  margin-bottom: 10px;
+}
 #editProfileContainer label {
   width: 25%;
   text-align: right;

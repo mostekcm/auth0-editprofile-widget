@@ -7,6 +7,13 @@ import FormTextareaField  from './FormTextareaField'
 export default function FieldTypeMapper(type) {
   switch (type) {
 
+    case 'custom': return function(data) {
+      var html = data.render(data.value);
+      return ( 
+        <div dangerouslySetInnerHTML={{__html: html}} />
+      );
+    }; break;
+      
     case 'select': return function(data) {
       return (
         <FormSelectField key={data.attribute}  data={data} />

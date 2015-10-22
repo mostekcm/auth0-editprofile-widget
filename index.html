@@ -37,6 +37,11 @@
                 domain: domain
               },
               [
+                { type:"custom", attribute:"name", render: function(value) {
+
+                  return '<div class="custom-field">Hi <b>'+value+'</b>, How you doing?</div>';
+
+                } },
                 { label: "Name", type:"text", attribute:"name", 
                   validation: function(name){return (name.length > 10 ? 'The name is too long' : null);} 
                 },
