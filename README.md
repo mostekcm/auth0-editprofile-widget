@@ -72,5 +72,17 @@ var editProfileWidget = new Auth0EditProfileWidget('editProfileContainer',
         ...
 ```
 
+##Creating a custom connection strategy
+
+Connecting to an existing backend can have special requirements and different ways to call the API endpoint. In this case, you have the posibility to create your own connection strategy.
+
+The connection strategy is an object that provides 2 methods:
+- get(): this will return the entire Auth0 user object
+- patch(data): this will push the entire form data to the server
+
+You can see the strategies provided by the widget as an example:
+- [Auth0 Api Strategy](https://github.com/auth0/auth0-editprofile-widget/blob/master/lib/ConnectionStrategy/Auth0ApiStrategy.js): this calls directly the Auth0 API in order to update only the `user_metadata`.
+- [Webtask Strategy](https://github.com/auth0/auth0-editprofile-widget/blob/master/lib/ConnectionStrategy/WebtaskStrategy.js): this will call the endpoint you set in the construct. It can be used to call any othe endpoint besides the Webtask.
+
 ##TODO:
 1. Hook to events between fields (ie: update a custom field based on changes on a text field).
