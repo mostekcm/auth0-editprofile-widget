@@ -12,9 +12,7 @@ var FormFieldList = React.createClass({
     });
 
     return (
-      <div>
-        {fieldNodes}
-      </div>
+      <div>{fieldNodes}</div>
     );
   }
 });
@@ -22,7 +20,7 @@ var FormFieldList = React.createClass({
 var ErrorItem = React.createClass({
   render: function() {
     return (
-      <li key={this.props.message}>
+      <li>
         {this.props.message}
       </li>
     );
@@ -33,7 +31,7 @@ var ErrorControl = React.createClass({
   render: function() {
     var errors = this.props.data.map(function (error) {
       return (
-        <ErrorItem message={error} />
+        <ErrorItem key={error} message={error} />
       );
     });
 

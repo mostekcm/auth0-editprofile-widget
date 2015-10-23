@@ -29,6 +29,7 @@ var editProfileWidget = new Auth0EditProfileWidget(auth0_domain, user_token, 'ed
 * user_token: it should be the current user id_token
 * container_id: it should be the id of the dom element where the widget will load
 * fields: it is an array with the fields that the widget will show. Each of the has the following attributes:
+    - id: Optional. This can be used to set a custom id to the field. By default, if not provided, it is generated using this template `field_${type}_${attribute}` but having several fields form the same tuple (attribute,type) will provide an id collition.
     - label: this is the input label text
     - type: input type (text, date, number, select, checkbox, radio)
     - attribute: this is the user_metadata attribute name where it will be saved
@@ -99,4 +100,14 @@ This widget support the ability to add custom fields in order to render your own
 ...
 ```
 
-This field will show a greeting showing dinamically the username;
+This field will show a greeting showing dinamically the user name.
+
+##Updating field value
+
+Calling
+
+```
+editProfileWidget.updateFieldById('customName', {
+  value:"New Name"
+});
+```

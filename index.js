@@ -100,7 +100,14 @@ export default class Auth0EditProfileWidget {
   updateFieldById(id, options) {
     var field = _.find( this.data.fields, item => item.id === id );
     if (!field) {
-      throw "Invalid field ID";
+
+      let parts = id.split('_');
+      field = _.find( this.data.fields, item => ( item.type === parts[1] && item.attribute === parts[2] ) );
+
+      if (!field) {
+        throw "Invalid field ID"; 
+      }
+
     }
 
     Object.keys(options).forEach(key => field[key] = options[key]);
