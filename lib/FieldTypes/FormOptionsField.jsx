@@ -1,21 +1,65 @@
 import React  from 'react';
 import _      from 'lodash';
 
-var onChangeHandlers = {
-  radio: function(event, data) {
-    return event.target.value;
-  },
+export default class FormOptionsField extends React.Component {
 
-  checkbox: function(event, data) {
-    return _.toArray(document.getElementsByName(data.attribute))
-            .map(e => e.checked ? e.value : null)
-            .filter(e => e !== null);
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.state = this.props.data;
+  }
+
+  render() {
+    var {label, type, value, attribute} = this.state;
+    
+    value = _.isArray(value) ? value : value;
+
+    var className = `field ${type}`;
+    var id = this.state.id || `field_${this.state.type}_${this.state.name}`
+
+    var options = this.state.options.map( option => ( <OptionField 
+                                                        parentId={id} 
+                                                        type={type} 
+                                                        name={attribute} 
+                                                        key={option.value} 
+                                                        value={option.value} 
+                                                        label={option.text} 
+                                                        onChange={this.handleChange} 
+                                                        selected={(value.indexOf(option.value) >= 0)} />) );
+
+    return (
+      <div className={className}>
+        <label>{label}</label>
+        <div className="items" id={id}>
+          {options}
+        </div>
+      </div>
+    );
+  }
+
+  onChangeHandlers = {
+    radio: event => event.target.value,
+
+    checkbox: (event, attribute) => _.toArray(document.getElementsByName(attribute))
+                                      .map(e => e.checked ? e.value : null)
+                                      .filter(e => e !== null)
+  }
+
+  handleChange(event) {
+    var newValue = this.onChangeHandlers[this.state.type](event, this.state.attribute);
+    
+    this.state.value = newValue;
+    this.setState(this.state);
+
+    if (this.state.onChange) {
+      this.state.onChange(newValue);
+    } 
   }
 }
 
-var OptionField = React.createClass({
+class OptionField extends React.Component {
 
-  render: function() {
+  render() {
     var id=`${this.props.parentId}_${this.props.value}`;
 
     return (
@@ -27,49 +71,5 @@ var OptionField = React.createClass({
 
   }
 
-});
+}
 
-var FormOptionsField = React.createClass({
-
-  getInitialState: function() {
-    return this.props.data;
-  },
-
-  render: function() {
-    var label = this.state.label;
-    var type = this.state.type;
-    var value = _.isArray(this.state.value) ? this.state.value : [this.state.value];
-    var attribute = this.state.attribute;
-    var className = `field ${type}`;
-    var id = this.state.id || `field_${this.state.type}_${this.state.name}`
-
-    var options = this.state.options.map( option => {
-      let selected = (value.indexOf(option.value) >= 0);
-      return ( <OptionField parentId={id} type={type} name={attribute} key={option.value} value={option.value} label={option.text} onChange={this.handleChange} selected={selected} />);
-    } );
-
-    return (
-      <div className={className}>
-        <label>{label}</label>
-        <div className="items" id={id}>
-        {options}
-        </div>
-      </div>
-    );
-  },
-
-  handleChange: function(event) {
-
-    var newValue = onChangeHandlers[this.props.data.type](event, this.props.data);
-    
-    this.props.data.value = newValue;
-
-    this.setState(this.props.data);
-
-    if (this.props.data.onChange) {
-      this.props.data.onChange(newValue);
-    }  
-  }
-});
-
-export default FormOptionsField;

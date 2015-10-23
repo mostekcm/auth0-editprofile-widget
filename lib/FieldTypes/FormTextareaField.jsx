@@ -1,28 +1,34 @@
 import React from 'react';
 
-var FormTextareaField = React.createClass({
-  render: function() {
-    var label = this.props.data.label;
-    var value = this.props.data.value;
-    var type = this.props.data.type;
-    var attribute = this.props.data.attribute;
-    var id=this.props.data.id || `field_${type}_${attribute}`;
+export default class FormTextareaField extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.state = this.props.data;
+  }
+
+  render() {
+    var {label, value, type, attribute} = this.state;
+
+    var id = this.props.data.id || `field_${type}_${attribute}`;
     var className = `field ${type}`;
 
     return (
       <div className={className}>
         <label htmlFor={id}>{label}</label>
-        <textarea name={attribute} id={id} defaultValue={value} onChange={this.handleChange} ></textarea>
+        <textarea name={attribute} id={id} value={value} onChange={this.handleChange} ></textarea>
       </div>
     );
-  },
+  }
 
-  handleChange: function(event) {
+  handleChange(event) {
+    this.state.value = event.target.value;
+
+    this.setState(this.state);
+
     if (this.props.data.onChange) {
       this.props.data.onChange(event.target.value);
     }
   }
-
-});
-
-export default FormTextareaField;
+}

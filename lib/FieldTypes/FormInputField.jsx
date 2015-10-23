@@ -1,17 +1,16 @@
 import React from 'react';
 
-var FormInputField = React.createClass({
+export default class FormInputField extends React.Component {
 
-  getInitialState: function() {
-    return this.props.data;
-  },
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.state = this.props.data;
+  }
 
-  render: function() {
-    var label = this.state.label;
-    var type = this.state.type;
-    var value = this.state.value;
-    var attribute = this.state.attribute;
-    var id=this.state.id || `field_${type}_${attribute}`;
+  render() {
+    var {label, type, value, attribute} = this.state;
+    var id = this.state.id || `field_${type}_${attribute}`;
     var className = `field ${type}`;
 
     return (
@@ -20,19 +19,15 @@ var FormInputField = React.createClass({
         <input id={id} type={type} value={value} name={attribute} onChange={this.handleChange} />
       </div>
     );
-  },
+  }
 
-  handleChange: function(event) {
-    this.props.data.value = event.target.value;
+  handleChange(event) {
+    this.state.value = event.target.value;
 
-    this.setState(this.props.data);
+    this.setState(this.state);
 
     if (this.props.data.onChange) {
       this.props.data.onChange(event.target.value);
     }
   }
-
-
-});
-
-export default FormInputField;
+}
