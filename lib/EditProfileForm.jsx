@@ -35,8 +35,14 @@ var ErrorControl = React.createClass({
       );
     });
 
+    var style = {};
+
+    if (errors.length === 0) {
+      style.display = 'none';
+    }
+
     return (
-      <ul className="error">
+      <ul className="error" style={style}>
         {errors}
       </ul>
     );

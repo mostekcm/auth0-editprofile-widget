@@ -87,6 +87,7 @@ export default class Auth0EditProfileWidget {
       this.render();
       return;
     }
+    this.render();
 
     this.on('submit', data);
 
