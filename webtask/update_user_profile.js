@@ -56,7 +56,7 @@ app.get('/',
   });
 
 app.patch('/',
-  function(req,res) {
+  function(req,res, next) {
 
     var email = req.body.email;
     delete req.body.email;
@@ -69,12 +69,14 @@ app.patch('/',
     delete req.body.account_options;
     delete req.body.account_checks;
 
-    var payload = {
+    req.payload = {
       email:email,
       app_metadata:app_metadata,
       user_metadata:req.body
     };
 
+  },
+  function(req,res) {
     request({
       url:req.endpoint,
       method:'PATCH',
@@ -83,7 +85,7 @@ app.patch('/',
         "accept": "application/json",
         "content-type": "application/json"
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(req.payload)
     }, function(error, response, body) {
       return res.status(response.statusCode).write(body).end();
     });
