@@ -1,6 +1,7 @@
 import EditProfileForm  from './lib/EditProfileForm';
 import Auth0Api         from './lib/ConnectionStrategy/Auth0ApiStrategy';
 import React            from 'react';
+import _                from 'lodash';
 
 export default class Auth0EditProfileWidget {
     
@@ -95,6 +96,18 @@ export default class Auth0EditProfileWidget {
       .catch(e => this.on('error', e));
 
   }
+
+  updateFieldById(id, options) {
+    var field = _.find( this.data.fields, item => item.id === id );
+    if (!field) {
+      throw "Invalid field ID";
+    }
+
+    Object.keys(options).forEach(key => field[key] = options[key]);
+
+    this.render();
+  }
+
 
 }
 

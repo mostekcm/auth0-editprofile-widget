@@ -34,6 +34,7 @@ var editProfileWidget = new Auth0EditProfileWidget(auth0_domain, user_token, 'ed
     - attribute: this is the user_metadata attribute name where it will be saved
     - validation: it is a validation function that will be excecuted before calling the Auth0 API. If there is an error, the text returned by the function will be used as the error message. If null is returned, it will assume no error.
     - render: used for custom fields. It should return a valid HTML to be rendered by the widget.
+    - onChange: event triggered on changes in the field. For custom fields, you will need to trigger it manually.
 
 ##Events
 
@@ -84,5 +85,18 @@ You can see the strategies provided by the widget as an example:
 - [Auth0 Api Strategy](https://github.com/auth0/auth0-editprofile-widget/blob/master/lib/ConnectionStrategy/Auth0ApiStrategy.js): this calls directly the Auth0 API in order to update only the `user_metadata`.
 - [Webtask Strategy](https://github.com/auth0/auth0-editprofile-widget/blob/master/lib/ConnectionStrategy/WebtaskStrategy.js): this will call the endpoint you set in the construct. It can be used to call any othe endpoint besides the Webtask.
 
-##TODO:
-1. Hook to events between fields (ie: update a custom field based on changes on a text field).
+##Using custom fields
+
+This widget support the ability to add custom fields in order to render your own controls. For example:
+
+```
+...
+{ id:"customName", type:"custom", attribute:"name", render: function(value) {
+
+  return '<div class="custom-field">Hi <b>'+value+'</b>, How you doing?</div>';
+
+} },
+...
+```
+
+This field will show a greeting showing dinamically the username;

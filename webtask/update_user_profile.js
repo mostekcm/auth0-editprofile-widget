@@ -45,14 +45,12 @@ app.use(function(req,res,next) {
 
 app.get('/',
   function(req,res) {
-    console.log('get');
     request({
       url:req.endpoint,
       headers: {
         Authorization: 'Bearer ' + req.webtaskContext.data.app_token
       }
     }, function(error, response, body) {
-      console.log('GET',error, response, body);
       res.write(body).end();
     });
   });
@@ -87,8 +85,7 @@ app.patch('/',
       },
       body: JSON.stringify(payload)
     }, function(error, response, body) {
-      console.log(error);
-      res.write(body).end();
+      return res.status(response.statusCode).write(body).end();
     });
 
   });

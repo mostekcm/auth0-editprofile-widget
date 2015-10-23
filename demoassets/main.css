@@ -81,9 +81,9 @@ h1{
 #editProfileContainer input[type=date],
 #editProfileContainer input[type=email],
 #editProfileContainer textarea,
-#editProfileContainer .radio,
+#editProfileContainer .radio .items,
 #editProfileContainer select,
-#editProfileContainer .checkbox {
+#editProfileContainer .checkbox .items {
   width: 40%;
   display: inline-block;
   padding: 6px 12px;

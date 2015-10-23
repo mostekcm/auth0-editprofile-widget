@@ -6,15 +6,23 @@ var FormInputField = React.createClass({
     var type = this.props.data.type;
     var value = this.props.data.value;
     var attribute = this.props.data.attribute;
-    var id=`field_${attribute}`;
+    var id=this.props.data.id || `field_${type}_${attribute}`;
+    var className = `field ${type}`;
 
     return (
-      <div className="field">
+      <div className={className}>
         <label htmlFor={id} >{label}</label>
-        <input id={id} type={type} defaultValue={value} name={attribute} />
+        <input id={id} type={type} defaultValue={value} name={attribute} onChange={this.handleChange} />
       </div>
     );
+  },
+
+  handleChange: function(event) {
+    if (this.props.data.onChange) {
+      this.props.data.onChange(event.target.value);
+    }
   }
+
 
 });
 
