@@ -27,6 +27,8 @@ export default class Auth0EditProfileWidget {
     this.editProfile = new EditProfileForm(this.container, this.data, data => this.onSubmit(data));
 
     this.events = {
+      loading:[],
+      loaded:[],
       save:[],
       submit:[],
       error:[]
@@ -34,8 +36,10 @@ export default class Auth0EditProfileWidget {
   }
 
   init() {
+    this.on('loading', null);
     this.connection_strategy.get()
-      .then(response => this.extendWithMetadata(response || {}) )
+      .then(response => ( this.extendWithMetadata(response || {}), response ) )
+      .then(response => this.on('loaded', response) )
       .then(() => this.render() )
       .catch(e => this.on('error', e));
   }

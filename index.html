@@ -10,6 +10,7 @@
       </header>
 
       <h1>Edit Profile</h1>
+      <h1>NEED TO CHECK WHY CHECKS AND OPTIONS ARE NOT LOADING AFTER STATE CHANGE</h1>
 
       <div id="saved" class="hidden">The changes were saved.</div>
 
@@ -40,7 +41,8 @@
               [
                 { id:"customName", type:"custom", attribute:"name", render: function(data) {
 
-                  return '<div class="custom-field">Hi <b>'+data.value+'</b>, How you doing?</div>';
+                  var value = data.value || "";
+                  return '<div class="custom-field">Hi <b>'+value+'</b>, How you doing?</div>';
 
                 } },
                 { label: "Name", type:"text", attribute:"name", 
@@ -103,6 +105,12 @@
               ]);
 
           editProfileWidget
+              .on('loading', function() {
+                console.log('loading')
+              })
+              .on('loaded', function(data) {
+                console.log('loaded', data)
+              })
               .on('submit', function(data) {
                 console.log('submited', data)
               })

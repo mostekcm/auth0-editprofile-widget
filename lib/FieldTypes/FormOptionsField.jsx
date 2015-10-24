@@ -59,16 +59,31 @@ export default class FormOptionsField extends React.Component {
 
 class OptionField extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.state = props;
+  }
+
   render() {
     var id=`${this.props.parentId}_${this.props.value}`;
 
     return (
       <div>
         <label htmlFor={id} >{this.props.label}</label>
-        <input id={id} type={this.props.type} name={this.props.name} value={this.props.value} defaultChecked={this.props.selected} onChange={this.props.onChange} />
+        <input id={id} type={this.props.type} name={this.props.name} value={this.state.value} checked={this.props.selected} onChange={this.handleChange} />
       </div>
     );
 
+  }
+
+  handleChange(event) {    
+    this.state.value = event.target.value;
+    this.setState(this.state);
+
+    if (this.state.onChange) {
+      this.state.onChange(event);
+    } 
   }
 
 }
