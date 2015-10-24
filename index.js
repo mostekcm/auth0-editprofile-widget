@@ -16,8 +16,6 @@ export default class Auth0EditProfileWidget {
     } else {
       this.connection_strategy = new Auth0ApiStrategy(options.domain, options.user_token);
     }
-    
-    this.editProfile = new EditProfileForm();
 
     this.data = {
       errors: [],
@@ -25,6 +23,8 @@ export default class Auth0EditProfileWidget {
     };
 
     this.container = document.getElementById(container_id);
+
+    this.editProfile = new EditProfileForm(this.container, this.data, data => this.onSubmit(data));
 
     this.events = {
       save:[],
@@ -51,7 +51,7 @@ export default class Auth0EditProfileWidget {
   }
 
   render() {
-    this.editProfile.render(this.container, this.data, data => this.onSubmit(data));
+    this.editProfile.render(this.data);
   }
 
   on(event, callbackOrParam) {

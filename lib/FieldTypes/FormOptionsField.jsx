@@ -12,7 +12,7 @@ export default class FormOptionsField extends React.Component {
   render() {
     var {label, type, value, attribute} = this.state;
     
-    value = _.isArray(value) ? value : value;
+    value = _.isArray(value) ? value : [value];
 
     var className = `field ${type}`;
     var id = this.state.id || `field_${this.state.type}_${this.state.name}`

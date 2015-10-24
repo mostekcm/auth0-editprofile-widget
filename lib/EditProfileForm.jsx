@@ -33,15 +33,16 @@ class FormControl extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = props.data;
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit} ref="editProfileForm">
 
-          <ErrorControl data={this.props.data.errors} />
+          <ErrorControl data={this.state.errors} />
 
-          <FormFieldList data={this.props.data.fields} />
+          <FormFieldList data={this.state.fields} />
 
           <input type="submit" value="Save" />
 
@@ -60,7 +61,10 @@ class FormControl extends React.Component {
 }
 
 export default class EditProfileForm {
-  render(container, data, onSubmit) {
-    React.render( <FormControl data={data} onSubmit={onSubmit} />, container );
+  constructor(container, data, onSubmit) {
+    this.form = React.render( <FormControl data={data} onSubmit={onSubmit} />, container );
+  }
+  render(data) {
+    this.form.setState(data);
   }
 }
