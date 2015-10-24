@@ -12,7 +12,7 @@ Check the demo: http://auth0.github.io/auth0-editprofile-widget/
 
 <script src="build/auth0-editprofile-widget.js"></script>
 <script type="text/javascript">
-var editProfileWidget = new Auth0EditProfileWidget(auth0_domain, user_token, 'editProfileContainer', [
+var editProfileWidget = new Auth0EditProfileWidget(auth0_domain, 'editProfileContainer', [
     { label: "Name", type:"text", attribute:"name", validation: function(name){return (name.length > 10 ? 'The name is too long' : null);} },
     { label: "Lastname", type:"text", attribute:"lastname" },
     { label: "BirthDay", type:"date", attribute:"birthday" },
@@ -22,11 +22,11 @@ var editProfileWidget = new Auth0EditProfileWidget(auth0_domain, user_token, 'ed
         { value: "type_3", text:"Type 3"}
     ]}
 ]);
+editProfileWidget.init(user_token);
 </script>
 ```
 
 * auth0_domain: it is your Auth0 account domain (ie: yourdomain.auth0.com)
-* user_token: it should be the current user id_token
 * container_id: it should be the id of the dom element where the widget will load
 * fields: it is an array with the fields that the widget will show. Each of the has the following attributes:
     - id: Optional. This can be used to set a custom id to the field. By default, if not provided, it is generated using this template `field_${type}_${attribute}` but having several fields form the same tuple (attribute,type) will provide an id collition.
@@ -36,6 +36,8 @@ var editProfileWidget = new Auth0EditProfileWidget(auth0_domain, user_token, 'ed
     - validation: it is a validation function that will be excecuted before calling the Auth0 API. If there is an error, the text returned by the function will be used as the error message. If null is returned, it will assume no error.
     - render: used for custom fields. It should return a valid HTML to be rendered by the widget.
     - onChange: event triggered on changes in the field. For custom fields, you will need to trigger it manually.
+
+The form will be rendered when it is initialized and will request the user data when the init method is called with the logged in user token. 
 
 ##Events
 
@@ -68,7 +70,7 @@ and set the `connection_strategy`:
 ```
 var editProfileWidget = new Auth0EditProfileWidget('editProfileContainer', 
       {
-        connection_strategy: new WebtaskStrategy('https://yourendpoint...', user_token)
+        connection_strategy: new WebtaskStrategy('https://yourendpoint...')
       },
       [
         ...
@@ -80,6 +82,7 @@ Connecting to an existing backend can have special requirements and different wa
 
 The connection strategy is an object that provides 2 methods:
 - get(): this will return the entire Auth0 user object
+- setUserToken(user_token): this will set the user token to request and update the profile data. It is called when the init method is called.
 - patch(data): this will push the entire form data to the server
 
 You can see the strategies provided by the widget as an example:

@@ -14,7 +14,7 @@ export default class Auth0EditProfileWidget {
     if (options.connection_strategy) {
       this.connection_strategy = options.connection_strategy;
     } else {
-      this.connection_strategy = new Auth0ApiStrategy(options.domain, options.user_token);
+      this.connection_strategy = new Auth0ApiStrategy(options.domain);
     }
 
     this.data = {
@@ -35,13 +35,15 @@ export default class Auth0EditProfileWidget {
     };
   }
 
-  init() {
+  init(user_token) {
     this.on('loading', null);
-    this.connection_strategy.get()
-      .then(response => ( this.extendWithMetadata(response || {}), response ) )
-      .then(response => this.on('loaded', response) )
-      .then(() => this.render() )
-      .catch(e => this.on('error', e));
+    this.connection_strategy
+      .setUserToken(user_token)
+      .get()
+        .then(response => ( this.extendWithMetadata(response || {}), response ) )
+        .then(response => this.on('loaded', response) )
+        .then(() => this.render() )
+        .catch(e => this.on('error', e));
   }
 
   extendWithMetadata(user) {
