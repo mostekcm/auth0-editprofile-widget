@@ -41,6 +41,8 @@ The form will be rendered when it is initialized and will request the user data 
 
 ##Events
 
+* loading: this occurs before getting the user profile when the init method is called
+* loaded: this occurs after geting the user profile when the init method is called
 * submit: this occurs when the user submits the form, before the API is called
 * save: this occurs after the API is called, if a success response is received
 * error: this occurs if there is any error in tha API call
