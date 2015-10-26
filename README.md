@@ -86,7 +86,7 @@ wt create --name update_user_profile \
   --output url update_user_profile.js --no-parse --no-merge
 ```
 
-- app_token: it should be an app token generated in the [API Exporer](auth0.com/docs/api/v2) with `read:users`, `update:users` and `update:users_app_metadata` scopes
+- app_token: it should be an app token generated in the [API Exporer](https://auth0.com/docs/api/v2) with `read:users`, `update:users` and `update:users_app_metadata` scopes
 - client_secret: should be the client secret of the same app you are using in the client side. It is used to verify the user token
 - domain: your auth0 account domain
 
@@ -166,7 +166,7 @@ If you have found a bug or if you have a feature request, please report them at 
 
 ## Author
 
-[Auth0](auth0.com)
+[Auth0](https://auth0.com)
 
 ## License
 
