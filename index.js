@@ -39,13 +39,13 @@ export default class Auth0EditProfileWidget {
     this.connection_strategy
       .setUserToken(user_token)
       .get()
-        .then(response => ( this.extendWithMetadata(response || {}), response ) )
+        .then(response => ( this.setAttributeValues(response || {}), response ) )
         .then(response => this.on('loaded', response) )
         .then(() => this.render() )
         .catch(e => this.on('error', e));
   }
 
-  extendWithMetadata(user) {
+  setAttributeValues(user) {
     user.user_metadata = user.user_metadata || {};
     user.app_metadata = user.app_metadata || {};
     this.data.fields.forEach(function(field) {
@@ -105,19 +105,16 @@ export default class Auth0EditProfileWidget {
   }
 
   updateFieldById(id, options) {
-    // var field = _.find( this.data.fields, item => item.id === id );
+
     var field = this.data.fields.find( item => item.id === id );
     if (!field) {
 
       let parts = id.split('_');
-      // field = _.find( this.data.fields, item => ( item.type === parts[1] && item.attribute === parts[2] ) );
       field = this.data.fields.find( item => ( item.type === parts[1] && item.attribute === parts[2] ) );
-
 
       if (!field) {
         throw "Invalid field ID"; 
       }
-
     }
 
     Object.keys(options).forEach(key => field[key] = options[key]);

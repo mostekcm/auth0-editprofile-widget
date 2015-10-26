@@ -19,6 +19,11 @@ function node_bin (bin) {
 
 module.exports = function (grunt) {
   grunt.initConfig({
+    env: {
+      build: {
+        NODE_ENV: "production"
+      }
+    },
     browserify: {
       options: {
         transform: [["babelify", { "stage": 0 }]],
@@ -75,21 +80,6 @@ module.exports = function (grunt) {
         }
       }
     },
-    copy: {
-      demo: {
-        files: {
-          'support/development-demo/auth0-lock.min.js': 'build/auth0-lock.min.js',
-          'support/development-demo/auth0-lock.js':     'build/auth0-lock.js'
-        }
-      },
-      release: {
-        files: [
-          { expand: true, flatten: true, src: 'build/*', dest: 'release/', rename: rename_release(pkg.version) },
-          { expand: true, flatten: true, src: 'build/*', dest: 'release/', rename: rename_release(minor_version) },
-          { expand: true, flatten: true, src: 'build/*', dest: 'release/', rename: rename_release(major_version) }
-        ]
-      }
-    },
     exec: {
       'uglify': {
         cmd: node_bin('uglifyjs') + ' build/auth0-editprofile-widget.js  -b beautify=false,ascii_only=true > build/auth0-editprofile-widget.min.js',
@@ -143,7 +133,7 @@ module.exports = function (grunt) {
   grunt.registerTask('css',           ['clean:css', 'less:dist', 'cssmin:minify']);
 
   grunt.registerTask('js',            ['clean:js', 'browserify:debug', 'exec:uglify']);
-  grunt.registerTask('build',         ['css', 'js']);
+  grunt.registerTask('build',         ['env:build', 'css', 'js']);
 
   grunt.registerTask('dev',           ['build', 'watch']);
 };
