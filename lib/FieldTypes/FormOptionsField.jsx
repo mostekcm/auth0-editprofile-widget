@@ -1,5 +1,4 @@
-import React  from 'react';
-import _      from 'lodash';
+import React from 'react';
 
 export default class FormOptionsField extends React.Component {
 
@@ -12,7 +11,8 @@ export default class FormOptionsField extends React.Component {
   render() {
     var {label, type, value, attribute} = this.state;
     
-    value = _.isArray(value) ? value : [value];
+    // value = _.isArray(value) ? value : [value];
+    value = Array.isArray(value) ? value : [value];
 
     var className = `field ${type}`;
     var id = this.state.id || `field_${this.state.type}_${this.state.name}`
@@ -40,9 +40,11 @@ export default class FormOptionsField extends React.Component {
   onChangeHandlers = {
     radio: event => event.target.value,
 
-    checkbox: (event, attribute) => _.toArray(document.getElementsByName(attribute))
-                                      .map(e => e.checked ? e.value : null)
-                                      .filter(e => e !== null)
+    checkbox: (event, attribute) => Array.prototype.map.call(
+        document.getElementsByName(attribute), 
+        e => e.checked ? e.value : null
+      )
+      .filter(e => e !== null)
   }
 
   handleChange(event) {
