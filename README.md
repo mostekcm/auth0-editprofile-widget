@@ -19,18 +19,31 @@ Add the `auth0-editprofile-widget.min.js` dependency, set up the form layout and
 <div id="editProfileContainer"></div>
 
 <script src="build/auth0-editprofile-widget.min.js"></script>
+
 <script type="text/javascript">
+
 var editProfileWidget = new Auth0EditProfileWidget(auth0_domain, 'editProfileContainer', [
-    { label: "Name", type:"text", attribute:"name", validation: function(name){return (name.length > 10 ? 'The name is too long' : null);} },
+    { label: "Name", type:"text", attribute:"name", 
+      validation: function(name){
+          return (name.length > 10 ? 'The name is too long' : null);
+      } 
+    },
+
     { label: "Lastname", type:"text", attribute:"lastname" },
+
     { label: "BirthDay", type:"date", attribute:"birthday" },
-    { label: "Type", type:"select", attribute:"account_type", options:[
+    
+    { label: "Type", type:"select", attribute:"account_type", 
+      options:[
         { value: "type_1", text:"Type 1"},
         { value: "type_2", text:"Type 2"},
         { value: "type_3", text:"Type 3"}
-    ]}
+      ]
+    }
 ]);
+
 editProfileWidget.init(user_token);
+
 </script>
 ```
 
@@ -84,8 +97,7 @@ var editProfileWidget = new Auth0EditProfileWidget('editProfileContainer',
       {
         connection_strategy: new WebtaskStrategy('https://yourendpoint...')
       },
-      [
-        ...
+      ...
 ```
 
 ### Creating a custom connection strategy
