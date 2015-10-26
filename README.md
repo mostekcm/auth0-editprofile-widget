@@ -1,16 +1,24 @@
-#Auth0 Edit Profile Widget
+# Auth0 Edit Profile Widget
 
 This widget provides a way to allow users to update their own profile.
 It uses the user token to update the user metadata.
 
 Check the demo: http://auth0.github.io/auth0-editprofile-widget/
 
-##Usage
+## Key features
+
+* Provide an easy way to update your users' profile
+* Plug 'n play user_metadata update
+* Easily extensible to work with your own API (or with the provided Webtask) in order to update app_metadata and root attributes like `email`
+
+## Usage
+
+Add the `auth0-editprofile-widget.min.js` dependency, set up the form layout and initialize the widget with the user token:
 
 ```
 <div id="editProfileContainer"></div>
 
-<script src="build/auth0-editprofile-widget.js"></script>
+<script src="build/auth0-editprofile-widget.min.js"></script>
 <script type="text/javascript">
 var editProfileWidget = new Auth0EditProfileWidget(auth0_domain, 'editProfileContainer', [
     { label: "Name", type:"text", attribute:"name", validation: function(name){return (name.length > 10 ? 'The name is too long' : null);} },
@@ -26,6 +34,8 @@ editProfileWidget.init(user_token);
 </script>
 ```
 
+Parameters:
+
 * auth0_domain: it is your Auth0 account domain (ie: yourdomain.auth0.com)
 * container_id: it should be the id of the dom element where the widget will load
 * fields: it is an array with the fields that the widget will show. Each of the has the following attributes:
@@ -39,7 +49,7 @@ editProfileWidget.init(user_token);
 
 The form will be rendered when it is initialized and will request the user data when the init method is called with the logged in user token. 
 
-##Events
+### Events
 
 * loading: this occurs before getting the user profile when the init method is called
 * loaded: this occurs after geting the user profile when the init method is called
@@ -47,7 +57,7 @@ The form will be rendered when it is initialized and will request the user data 
 * save: this occurs after the API is called, if a success response is received
 * error: this occurs if there is any error in tha API call
 
-##Updating users 
+## Updating users (Extending the widget)
 
 By default this widget provides a way to update the `user_metadata` using the user token. Since to update the `app_metadata` and root attributes an `app_token` is needed, it shouldn't be done on client side.
 
@@ -78,7 +88,7 @@ var editProfileWidget = new Auth0EditProfileWidget('editProfileContainer',
         ...
 ```
 
-##Creating a custom connection strategy
+### Creating a custom connection strategy
 
 Connecting to an existing backend can have special requirements and different ways to call the API endpoint. In this case, you have the posibility to create your own connection strategy.
 
@@ -91,7 +101,7 @@ You can see the strategies provided by the widget as an example:
 - [Auth0 Api Strategy](https://github.com/auth0/auth0-editprofile-widget/blob/master/lib/ConnectionStrategy/Auth0ApiStrategy.js): this calls directly the Auth0 API in order to update only the `user_metadata`.
 - [Webtask Strategy](https://github.com/auth0/auth0-editprofile-widget/blob/master/lib/ConnectionStrategy/WebtaskStrategy.js): this will call the endpoint you set in the construct. It can be used to call any othe endpoint besides the Webtask.
 
-##Using custom fields
+### Using custom fields
 
 This widget support the ability to add custom fields in order to render your own controls. For example:
 
@@ -107,12 +117,45 @@ This widget support the ability to add custom fields in order to render your own
 
 This field will show a greeting showing dinamically the user name.
 
-##Updating field value
+### Updating field value
 
-Calling
+Calling the `updateFieldById` method, allows you to update other fields settings in order to update their value or settings.
 
 ```
 editProfileWidget.updateFieldById('customName', {
   value:"New Name"
 });
 ```
+
+Prameters:
+
+* id: the field id your want to update
+* options: the field options to extend
+
+## What is Auth0?
+
+Auth0 helps you to:
+
+* Add authentication with [multiple authentication sources](https://docs.auth0.com/identityproviders), either social like **Google, Facebook, Microsoft Account, LinkedIn, GitHub, Twitter, Box, Salesforce, amont others**, or enterprise identity systems like **Windows Azure AD, Google Apps, Active Directory, ADFS or any SAML Identity Provider**.
+* Add authentication through more traditional **[username/password databases](https://docs.auth0.com/mysql-connection-tutorial)**.
+* Add support for **[linking different user accounts](https://docs.auth0.com/link-accounts)** with the same user.
+* Support for generating signed [Json Web Tokens](https://docs.auth0.com/jwt) to call your APIs and **flow the user identity** securely.
+* Analytics of how, when and where users are logging in.
+* Pull data from other sources and add it to the user profile, through [JavaScript rules](https://docs.auth0.com/rules).
+
+## Create a free Auth0 Account
+
+1. Go to [Auth0](https://auth0.com) and click Sign Up.
+2. Use Google, GitHub or Microsoft Account to login.
+
+## Issue Reporting
+
+If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
+
+## Author
+
+[Auth0](auth0.com)
+
+## License
+
+This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more info.
