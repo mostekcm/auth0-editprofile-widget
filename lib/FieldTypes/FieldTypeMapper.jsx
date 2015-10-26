@@ -9,6 +9,9 @@ export default function FieldTypeMapper(type) {
 
     case 'custom': return function(data) {
         var html = data.render(data);
+
+        if (html === null) return;
+
         var id = data.id || `field_${data.type}_${data.attribute}`;
         return ( <div key={id} dangerouslySetInnerHTML={{__html: html}} /> );
       }; break;
