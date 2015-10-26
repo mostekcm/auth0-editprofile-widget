@@ -1,8 +1,8 @@
 {
-  "name": "auth0-ratings-widget",
+  "name": "auth0-editprofile-widget",
   "version": "1.0.0",
-  "description": "Auth0 dashboard widget.",
-  "repository": "https://github.com/auth0/auth0-ratings-widget",
+  "description": "Auth0 Edit Profile widget.",
+  "repository": "https://github.com/auth0/auth0-editprofile-widget",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
