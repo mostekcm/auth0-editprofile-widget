@@ -1,5 +1,5 @@
 import EditProfileForm  from './lib/EditProfileForm';
-import Auth0Api         from './lib/ConnectionStrategy/Auth0ApiStrategy';
+import Auth0ApiStrategy from './lib/ConnectionStrategy/Auth0ApiStrategy';
 import React            from 'react';
 
 export default class Auth0EditProfileWidget {
