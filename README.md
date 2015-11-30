@@ -95,10 +95,15 @@ and set the `connection_strategy`:
 ```
 var editProfileWidget = new Auth0EditProfileWidget('editProfileContainer', 
       {
-        connection_strategy: new WebtaskStrategy('https://yourendpoint...')
+        connection_strategy: new WebtaskStrategy({endpoint: 'https://yourendpoint...'})
       },
       ...
 ```
+
+options:
+- endpoint: the url to call to get and save the profie (by default both use this)
+- save_endpoint: the url used to save the profile
+- save_method: the HTTP method used to save the profile (by default `PATCH`)
 
 ### Creating a custom connection strategy
 
