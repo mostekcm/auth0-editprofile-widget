@@ -37,13 +37,14 @@ export default class Auth0EditProfileWidget {
   init(user_token) {
     this.on('loading', null);
     let request = this.connection_strategy
-      .setUserToken(user_token);
+      .setUserToken(user_token)
+      .get();
 
     if (!request) {
       return;
     }
     
-    request.get()
+    request
         .then(response => ( this.setAttributeValues(response || {}), response ) )
         .then(response => this.on('loaded', response) )
         .then(() => this.render() )
