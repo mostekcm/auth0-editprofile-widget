@@ -104,8 +104,20 @@ export default class Auth0EditProfileWidget {
     this.on('submit', data);
 
     this.connection_strategy.patch(data)
+      .then(response => {
+        if (response.errors) {
+          this.data.errors = validation;
+        }
+        return response;
+      })
       .then(response => (this.render(), response) )
-      .then(response => this.on('save', response) )
+      .then(response => {
+        if (this.data.errors.length === 0) {
+          this.on('save', response);
+        } else {
+          this.on('error', response)
+        }
+      } )
       .catch(e => this.on('error', e));
 
   }
