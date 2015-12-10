@@ -105,17 +105,17 @@ export default class Auth0EditProfileWidget {
 
     this.connection_strategy.patch(data)
       .then(response => {
-        if (response.errors.length > 0) {
+        if (response.errors && response.errors.length > 0) {
           this.data.errors = response.errors;
         }
         return response;
       })
       .then(response => (this.render(), response) )
       .then(response => {
-        if (response.errors.length === 0) {
-          this.on('save', response);
+        if (response.errors && response.errors.length > 0) {
+          this.on('error', response);
         } else {
-          this.on('error', response)
+          this.on('save', response);
         }
       } )
       .catch(e => this.on('error', e));
