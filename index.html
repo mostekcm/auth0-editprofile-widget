@@ -15,18 +15,18 @@
 
       <div id="editProfileContainer"></div>
 
-      <script src="//cdn.auth0.com/js/lock-7.js"></script>
+      <script src="https://cdn.auth0.com/js/lock/10.5/lock.min.js"></script>
       <script src="build/auth0-editprofile-widget.js"></script>
       <script type="text/javascript">
 
         var domain = 'wptest.auth0.com';
         var cid = '87CP6ui4BKpWJsqwM5vimGORj5xeajs8';
         
-        var widget = new Auth0Lock(cid, domain);
+        var widget = new Auth0Lock(cid, domain, {closable:false});
 
         var editProfileWidget = new Auth0EditProfileWidget('editProfileContainer', 
               {
-                // domain: domain
+                //domain: domain
                 connection_strategy: new WebtaskStrategy({ endpoint: 'https://webtask.it.auth0.com/api/run/wt-5491169046745-0/update_user_profile?webtask_no_cache=1' })
               },
               [
@@ -98,35 +98,56 @@
                 }
               ]);
 
-        widget.show({closable: false},function (err, profile, user_token) {
+        widget.on("authenticated", function(authResult) {
 
-          var userInfoElement = document.getElementById('user-info');
+            function showLoggedIn() {
+              var profile = JSON.parse(localStorage.getItem('profile'));
+              var userInfoElement = document.getElementById('user-info');
 
-          userInfoElement.innerHTML += '<img src="'+profile.picture+'" />';
-          userInfoElement.innerHTML += '<span class="name">'+ profile.nickname +'</span>';
+              userInfoElement.innerHTML += '<img src="'+profile.picture+'" />';
+              userInfoElement.innerHTML += '<span class="name">'+ profile.nickname +'</span>';
 
-          editProfileWidget
-              .on('loading', function() {
-                console.log('loading')
-              })
-              .on('loaded', function(data) {
-                console.log('loaded', data)
-              })
-              .on('submit', function(data) {
-                console.log('submited', data)
-              })
-              .on('save', function(data){
-                console.log('saved', data);
-                document.getElementById('saved').className = "";
-                setTimeout(function(){
-                  document.getElementById('saved').className = "hidden";
-                }, 3000);
-              })
-              .on('error', function(data){
-                console.log('error', data);
-              })
-              .init(user_token);
-        });
+              editProfileWidget
+                  .on('loading', function() {
+                    console.log('loading')
+                  })
+                  .on('loaded', function(data) {
+                    console.log('loaded', data)
+                  })
+                  .on('submit', function(data) {
+                    console.log('submited', data)
+                  })
+                  .on('save', function(data){
+                    console.log('saved', data);
+                    document.getElementById('saved').className = "";
+                    setTimeout(function(){
+                      document.getElementById('saved').className = "hidden";
+                    }, 3000);
+                  })
+                  .on('error', function(data){
+                    console.log('error', data);
+                  })
+                  .init(localStorage.getItem('idToken'));
+
+
+            }
+            
+            widget.getProfile(authResult.idToken, function(error, profile) {
+
+              localStorage.setItem('idToken', authResult.idToken);
+              localStorage.setItem('profile', JSON.stringify(profile));
+
+              var token = localStorage.getItem('idToken');
+
+              if (token) {
+                showLoggedIn();
+                widget.hide();
+              }
+
+            });
+          });
+
+          widget.show();
 
       </script>
     </body>
