@@ -6,6 +6,15 @@ export default class FormOptionsField extends React.Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.state = this.props.data;
+    this.onChangeHandlers = {
+    radio: event => event.target.value,
+
+    checkbox: (event, attribute) => Array.prototype.map.call(
+        document.getElementsByName(attribute), 
+        e => e.checked ? e.value : null
+      )
+      .filter(e => e !== null)
+    };
   }
 
   render() {
@@ -35,16 +44,6 @@ export default class FormOptionsField extends React.Component {
         </div>
       </div>
     );
-  }
-
-  onChangeHandlers = {
-    radio: event => event.target.value,
-
-    checkbox: (event, attribute) => Array.prototype.map.call(
-        document.getElementsByName(attribute), 
-        e => e.checked ? e.value : null
-      )
-      .filter(e => e !== null)
   }
 
   handleChange(event) {
